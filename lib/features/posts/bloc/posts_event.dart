@@ -6,4 +6,3 @@ abstract class PostsEvent {}
 
 class PostsInitialFechEvent extends PostsEvent{}
 
-class PostsInitialFetchEvent extends PostsEvent{}

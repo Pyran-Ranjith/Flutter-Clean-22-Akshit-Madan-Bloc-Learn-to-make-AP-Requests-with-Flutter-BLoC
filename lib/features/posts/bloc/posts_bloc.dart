@@ -1,7 +1,6 @@
 // ignore_for_file: avoid_print, empty_catches
-
+// Flow: event -> bloc ->
 import 'dart:async';
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
@@ -15,7 +14,7 @@ part 'posts_state.dart';
 
 class PostsBloc extends Bloc<PostsEvent, PostsState> {
   PostsBloc() : super(PostsInitial()) {
-    on<PostsInitialFetchEvent>(postsInitialFetchEvent);
+    on<PostsInitialFechEvent>(postsInitialFechEvent);
     // on<PostAddEvent>(postAddEvent);
   }
 
@@ -38,6 +37,31 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
   //   }
   // }
 
-  FutureOr<void> postsInitialFetchEvent(PostsInitialFetchEvent event, Emitter<PostsState> emit) {
+  FutureOr<void> postsInitialFechEvent(PostsInitialFechEvent event, Emitter<PostsState> emit) async{
+    var client = http.Client();
+    try {
+      var response = await client
+          .get(
+            Uri.parse('https://jsonplaceholder.typicode.com/posts')
+            );
+  // var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+  // var uri = Uri.parse(decodedResponse['uri'] as String);
+      print(response.body);
+
+      // List result = jsonDecode(response.body);
+
+      // for (int i = 0; i < result.length; i++) {
+      //   PostDataUiModel post =
+      //       PostDataUiModel.fromMap(result[i] as Map<String, dynamic>);
+      //   posts.add(post);
+      // }
+
+      // print(posts);
+
+      // emit(PostFetchingSuccessfullState(posts: posts));
+     } 
+     catch (e) {
+      log(e.toString());
+    }
   }
 }

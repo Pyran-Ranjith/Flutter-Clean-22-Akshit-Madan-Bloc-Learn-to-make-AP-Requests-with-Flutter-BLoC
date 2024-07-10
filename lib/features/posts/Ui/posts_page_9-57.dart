@@ -20,6 +20,7 @@ class _PostsPageState extends State<PostsPage> {
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

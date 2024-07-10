@@ -6,7 +6,6 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:fc_22_akshit_madan_bloc_api_requests_app/features/posts/models/post_data_ui_model.dart';
-import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
 
 part 'posts_event.dart';
