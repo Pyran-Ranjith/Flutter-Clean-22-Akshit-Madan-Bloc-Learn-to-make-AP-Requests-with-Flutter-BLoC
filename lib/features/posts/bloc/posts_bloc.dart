@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print, empty_catches
 // Flow: event -> bloc ->
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
@@ -19,17 +20,17 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
   }
 
   // FutureOr<void> postsInitialFetchEvent(
-      // PostsInitialFetchEvent event, Emitter<PostsState> emit) async {
-    // emit(PostsFetchingLoadingState());
-    // List<PostDataUiModel> posts = await PostsRepo.fetchPosts();
+  // PostsInitialFetchEvent event, Emitter<PostsState> emit) async {
+  // emit(PostsFetchingLoadingState());
+  // List<PostDataUiModel> posts = await PostsRepo.fetchPosts();
 
-    // emit(PostFetchingSuccessfulState(posts: posts));
+  // emit(PostFetchingSuccessfulState(posts: posts));
   // }
 
   // FutureOr<void> postAddEvent(
   //     PostAddEvent event, Emitter<PostsState> emit) async {
   //   bool success = await PostsRepo.addPost();
-  
+
   //   if (success) {
   //     emit(PostsAdditionSuccessState());
   //   } else {
@@ -37,30 +38,31 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
   //   }
   // }
 
-  FutureOr<void> postsInitialFechEvent(PostsInitialFechEvent event, Emitter<PostsState> emit) async{
+  FutureOr<void> postsInitialFechEvent(
+      PostsInitialFechEvent event, Emitter<PostsState> emit) async {
+    emit(PostsFetchingLoadingState());
     var client = http.Client();
+    List<PostDataUiModel> posts = [];
     try {
       var response = await client
-          .get(
-            Uri.parse('https://jsonplaceholder.typicode.com/posts')
-            );
-  // var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
-  // var uri = Uri.parse(decodedResponse['uri'] as String);
-      print(response.body);
+          .get(Uri.parse('https://jsonplaceholder.typicode.com/posts'));
+      // var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+      // var uri = Uri.parse(decodedResponse['uri'] as String);
+      // print(response.body);
 
-      // List result = jsonDecode(response.body);
+      List result = jsonDecode(response.body);
 
-      // for (int i = 0; i < result.length; i++) {
-      //   PostDataUiModel post =
-      //       PostDataUiModel.fromMap(result[i] as Map<String, dynamic>);
-      //   posts.add(post);
-      // }
+      for (int i = 0; i < result.length; i++) {
+        PostDataUiModel post =
+            PostDataUiModel.fromMap(result[i] as Map<String, dynamic>);
+        posts.add(post);
+      }
 
-      // print(posts);
+      print(posts);
 
-      // emit(PostFetchingSuccessfullState(posts: posts));
-     } 
-     catch (e) {
+      emit(PostFetchingSuccessfulState(posts: posts));
+    } catch (e) {
+      emit(PostsFetchingErrorState());
       log(e.toString());
     }
   }
