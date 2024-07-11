@@ -1,9 +1,6 @@
 // ignore_for_file: prefer_const_constructors, unnecessary_new
 
-// import 'package:fc_22_akshit_madan_bloc_api_requests_app/features/home/home_page.dart';
 import 'package:flutter/material.dart';
-
-// import 'features/home/home_page.dart';
 import 'features/posts/Ui/posts_page.dart';
 
 void main() async {

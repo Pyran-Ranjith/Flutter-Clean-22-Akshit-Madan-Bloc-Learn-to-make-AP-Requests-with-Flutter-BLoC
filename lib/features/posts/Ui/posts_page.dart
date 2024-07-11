@@ -26,6 +26,13 @@ class _PostsPageState extends State<PostsPage> {
       appBar: AppBar(
         title: Center(child: Text('Posts Page')),
       ),
+
+        floatingActionButton: FloatingActionButton(
+            child: const Icon(Icons.add),
+            onPressed: () {
+              postsBloc.add(PostsAddEvent());
+            }),
+
       body: BlocConsumer<PostsBloc, PostsState>(
         bloc: postsBloc,
         listenWhen: (prevous, current) => current is PostsActionState,
@@ -62,7 +69,6 @@ class _PostsPageState extends State<PostsPage> {
               return const SizedBox();
           }
           return Container(
-              // child: ListView.builder(itemCount: successState.posts.length,),
               );
         },
       ),
